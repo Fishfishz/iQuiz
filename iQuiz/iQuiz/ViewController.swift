@@ -53,11 +53,17 @@ class ViewController: UIViewController {
         }))
         present(controller, animated: true, completion: {NSLog("ok")})
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         tableView.dataSource = data
         tableView.delegate = actor
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let questionView = segue.destination as! QuestionViewController
+        questionView.typeNum = tableView.indexPathForSelectedRow?.row
     }
 }
 
