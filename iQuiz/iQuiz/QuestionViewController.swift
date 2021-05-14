@@ -17,8 +17,8 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
     static let CELL_STYLE = "questionAnsCell"
     public var questionNum: Int! = 0
     public var scoreNum: Int! = 0
+    public var totalNum: Int! = 0
     public var selectedAns: String! = nil
-    public var questionType: [String]! = nil
     public var answerType: [String]! = nil
 
     let mathQuestions = ["1 + 1 = ", "1 * 1 = "]
@@ -52,16 +52,18 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         switch typeNum {
         case 1:
-            questionType = marvelQuestions
+            question.text = marvelQuestions[questionNum]
             answerType = marvelAns[questionNum]
+            totalNum = marvelQuestions.count
         case 2:
-            questionType = scienceQuestions
+            question.text = scienceQuestions[questionNum]
             answerType = scienceAns[questionNum]
+            totalNum = scienceQuestions.count
         default:
-            questionType = mathQuestions
+            question.text = mathQuestions[questionNum]
             answerType = mathAns[questionNum]
+            totalNum = mathQuestions.count
         }
-        question.text = questionType[questionNum]
     }
     
     @IBAction func submitAns(_ sender: Any) {
@@ -80,9 +82,9 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
         let view = segue.destination as? AnswerViewController
         view?.chosenAns = selectedAns
         view?.type = self.typeNum
-        view?.questionContent = self.questionType[questionNum]
+        view?.questionContent = self.question.text
         view?.questionNum = self.questionNum
-        view?.totalNum = self.questionType.count
+        view?.totalNum = self.totalNum
         view?.scoreNum = self.scoreNum
     }
 }
