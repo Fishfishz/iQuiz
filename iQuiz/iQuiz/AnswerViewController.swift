@@ -17,7 +17,9 @@ class AnswerViewController: UIViewController {
     public var totalNum: Int! = nil
     public var scoreNum: Int! = nil
     public var questionContent: String! = nil
-    let correctAns = [["2", "1"], ["6"], ["Water"]]
+    public var correctAns: String! = nil
+    public var fullData: [Quiz] = []
+    public var url: String! = nil
     
     @IBAction func next(_ sender: Any) {
         if (questionNum == totalNum) {
@@ -30,24 +32,30 @@ class AnswerViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let questionView = segue.destination as? QuestionViewController {
             questionView.typeNum = self.type
+            NSLog("type num is " + String(type))
             questionView.questionNum = self.questionNum
             questionView.scoreNum = self.scoreNum
+            questionView.fullData = self.fullData
+            questionView.url = self.url
         } else if let finishedView = segue.destination as? FinishViewController {
             finishedView.scoreNum = self.scoreNum
             finishedView.totalNum = self.totalNum
+            finishedView.url = self.url
+        } else if let mainView = segue.destination as? ViewController {
+            mainView.defaultUrl = self.url
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if chosenAns == correctAns[type][questionNum] {
+        if chosenAns == correctAns {
             indicator.text = "You got it right"
             scoreNum += 1
         } else {
             indicator.text = "You got it wrong"
         }
         question.text = questionContent
-        answer.text = "The correct answer is : " + correctAns[type][questionNum]
+        answer.text = "The correct answer is : " + correctAns
         questionNum += 1
     }
     
